@@ -119,7 +119,7 @@ def run(args, mlen):
             p.submit(SignScan.start, modules)
         if 'xray' in modules:
             # 启动xray模块
-            p.submit(Xray.start)
+            p.submit(Xray.start, modules)
         if 'awvs' in modules:
             # 启动awvs模块
             p.submit(Awvs.run, modules)

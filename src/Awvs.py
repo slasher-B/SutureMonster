@@ -97,7 +97,16 @@ def run(mods):
         print('[INFO]AWVS:协同模式,将使用subdomain模块的结果作为目标.')
         while 1:
             src.time.sleep(5)
-            if src.os.path.isfile(tarFile):break
+            s, c = Util.selectDB(rowName='url', tableName='suturemonster')
+            if len(list(s)) != 0:
+                c.close()
+                break
+            c.close()
+        s, c = Util.selectDB(rowName='url', tableName='suturemonster')
+        with open(tarFile, 'a') as w:
+            for ul in s:
+                w.write(str(ul[0]).strip() + '\n')
+        c.close()
     else:
         print('[INFO]AWVS:独立模式,进程开始执行...')
         with open(Util.joinPath(src.path, 'reports', 'live.txt'), 'r') as r:

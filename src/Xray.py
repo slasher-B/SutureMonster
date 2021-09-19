@@ -50,7 +50,7 @@ def initiative(o, tf):
             src.time.sleep(0.01)
 
 
-def start():
+def start(mods):
     if not src.os.path.isfile(Util.joinPath(src.path, 'monster', 'Xray', 'xray')) and \
             not src.os.path.isfile(Util.joinPath(src.path, 'monster', 'Xray', 'xray.exe')):
         print('[ERROR]Xray:找不到xray,或者没有执行权限.')
@@ -62,6 +62,26 @@ def start():
 
     defaultRep = Util.joinPath(src.path, 'reports', 'vul_scan_report', 'Xray_PassiveScan_report.html')
     if src.xray_model == 1:
+        if src.os.path.isfile(tar_file):
+            src.os.remove(tar_file)
+        if 'subdomain' in mods:
+            while 1:
+                src.time.sleep(5)
+                s, c = Util.selectDB(rowName='url', tableName='suturemonster')
+                if len(list(s)) != 0:
+                    c.close()
+                    break
+                c.close()
+            s, c = Util.selectDB(rowName='url', tableName='suturemonster')
+            with open(tar_file, 'a') as w:
+                for ul in s:
+                    w.write(str(ul[0]).strip() + '\n')
+            c.close()
+        else:
+            with open(Util.joinPath(src.path, 'reports', 'live.txt'), 'r') as r:
+                with open(tar_file, 'a') as w:
+                    for u in r.readlines():
+                        w.write(u.split('>>')[0].strip() + '\n')
         initiative(src.xray_path, tar_file)
     else:
         if src.os.path.isfile(defaultRep):
