@@ -31,6 +31,7 @@
 那么signscan模块不会工作，最终会引用subdomain模块生成的服务器banner信息。<br>
 
 # Use-Agent
+example：<br>
 > python SutureMonster.py -f target.txt<br>
 > python SutureMonster.py -f urls.txt -m awvs xray<br>
 > python SutureMonster.py -u http://example.com -m subdomain dirscan<br>
@@ -77,11 +78,11 @@ hostscan模块整合了两个工具，分别是nmap和本人的另一个go的项
 
 * 6.awvs模块<br>
 ![awvs](IMG/awvs.png)<br>
-这个模块源自于autoIncient，经过改造后具备主动漏洞扫描功能，并且在扫描结束后会自动删除目标，只需要在配置文件中设置好即可，唯一的不足是主动扫描的报告需要自己上web端下载。目标获取和上面几个模块一样，联动subdomain时会从数据库获取目标，独立模式则会从subdomain.tmp获取目标。<br>
+这个模块源自于autoIncient，经过改造后具备主动漏洞扫描功能，并且在扫描结束后会自动删除目标，只需要在配置文件中设置好即可，唯一的不足是主动扫描的报告需要自己上web端下载。目标获取和上面几个模块一样，联动subdomain时会从数据库获取目标，独立模式则会从live.txt获取目标。<br>
 
 * 7.xray模块<br>
 ![xray](IMG/xray.png)<br>
-这个模块也是来自autoIncient项目，经过改造后具备主动漏洞扫描功能，输出报告为html，在配置文件中可以设定运行模式和主动模式的结果输出路径，在被动模式下监听来自配置文件中设置的端口的流量，在本项目和awvs配合使用，主动模式下统一从subdomain.tmp获取目标。<br>
+这个模块也是来自autoIncient项目，经过改造后具备主动漏洞扫描功能，输出报告为html，在配置文件中可以设定运行模式和主动模式的结果输出路径，在被动模式下监听来自配置文件中设置的端口的流量，在本项目和awvs配合使用，主动模式下目标获取同awvs。<br>
 
 # 运行效果
 subdomain模块：<br>
