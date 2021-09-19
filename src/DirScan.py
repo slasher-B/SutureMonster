@@ -11,8 +11,8 @@ from src import Util
 工作流程:
 live.txt ---> [urls] ---> dirSearch() ---> [folders]
                 ^                              |
-                |                              |
-                -------- allReports.db <--------
+                |                              V
+             subdomain                   allReports.db 
 
 @author: B
 '''
