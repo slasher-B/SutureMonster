@@ -55,6 +55,15 @@
 
 * 3.hostscan模块<br>
 ![hostscan](IMG/hostscan.png)<br>
+hostscan模块整合了两个工具，分别是nmap和本人的另一个go的项目HostSurvey，主要功能为c段主机发现、端口扫描、web服务识别。nmap需要将程序放在HostScan/目录下并将文件夹重命名为nmap或者把nmap加入环境变量；<br>
+模块工作方式分联动subdomain和单独运行两种：<br>
+
+> 联动模式下目标会取自oneforall收集的c段结果进行扫描
+> 单独运行目标直接从live_ip.txt获取
+
+获取到目标后先用syn扫描80端口确定服务器存活，再用全连接进行端口扫描，最后结果以端口号为文件名内容为ip的格式输出到reports/host_scan_reprot/，以方便hydra调用目标。在使用HostSurvey扫描的时候需要用到pcap，如果因为各种原因用不了的话可以用.test后缀的编译版本，这个版本的工具不会先去探测主机存活性，而是直接开始端口扫描，如果需要linux版本请自行下载更改然后编译。<br>
+需要更改的地方：<br>
+![hostscan2](IMG/hostscan_change.png)<br>
 
 * 4.signscan模块<br>
 ![signscan](IMG/signscan.png)<br>
