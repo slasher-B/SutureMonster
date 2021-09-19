@@ -1,5 +1,5 @@
 # SutureMonster
-这个项目是autoIncient的加强版，和原版相比起来，增加了子域名收集、目录扫描和服务识别模块，并且兼容多平台。<br>
+这个项目是autoIncient的加强版，和原版相比起来，增加了子域名收集、目录扫描和服务识别模块，支持代理，并且兼容多平台。<br>
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在运行之前需要根据自己情况设置好配置文件 `sutureonster.yml` ，整合的工具本身可能也有配置文件，
@@ -55,28 +55,33 @@
 
 * 3.hostscan模块<br>
 ![hostscan](IMG/hostscan.png)<br>
-hostscan模块整合了两个工具，分别是nmap和本人的另一个go的项目HostSurvey，主要功能为c段主机发现、端口扫描、web服务识别。nmap需要将程序放在HostScan/目录下并将文件夹重命名为nmap或者把nmap加入环境变量；<br>
+hostscan模块整合了两个工具，分别是nmap和本人的另一个go的项目HostSurvey，主要功能为c段主机发现、端口扫描、web服务识别。nmap需要将程序放在HostScan/目录下并将文件夹重命名为nmap或者把nmap加入环境变量；如果联动nmap，则会识别端口开放服务，两者结果将结合去重写入数据库。<br>
 模块工作方式分联动subdomain和单独运行两种：<br>
 
-> 联动模式下目标会取自oneforall收集的c段结果进行扫描
-> 单独运行目标直接从live_ip.txt获取
+> 联动模式下目标会取自oneforall收集的c段结果进行扫描<br>
+> 单独运行目标直接从live_ip.txt获取<br>
 
 获取到目标后先用syn扫描80端口确定服务器存活，再用全连接进行端口扫描，最后结果以端口号为文件名内容为ip的格式输出到reports/host_scan_reprot/，以方便hydra调用目标。在使用HostSurvey扫描的时候需要用到pcap，如果因为各种原因用不了的话可以用.test后缀的编译版本，这个版本的工具不会先去探测主机存活性，而是直接开始端口扫描，如果需要linux版本请自行下载更改然后编译。<br>
 需要更改的地方：<br>
 ![hostscan2](IMG/hostscan_change.png)<br>
 
+
 * 4.signscan模块<br>
 ![signscan](IMG/signscan.png)<br>
+这个模块的功能是使用HostSurvey的sign模块对网站进行服务的banner识别，其结果和subdomain模块中oneforall的banner识别结果相同，因此在联动模式下这个模块不工作，直接跳过；独立模式下则会启动工具识别网站banner，然后经过处理后写入数据库。<br>
 
 * 5.hydra模块<br>
 ![hydra](IMG/hydra.png)<br>
+这里单独整合了hydra，用于对hostscan模块端口扫描的结果进行针对性爆破，需要先将hydra加入环境变量，或者把程序放在monster/目录下，文件夹重命名为 thc-hydra ；爆破的结果将写入数据库并保存到reports/port_fuzz_report/目录下。<br>
+另外，有生之年会加入验证码绕过模块，同时开启web端用户密码爆破功能。<br>
 
 * 6.awvs模块<br>
 ![awvs](IMG/awvs.png)<br>
+这个模块源自于autoIncient，经过改造后具备主动漏洞扫描功能，并且在扫描结束后会自动删除目标，只需要在配置文件中设置好即可，唯一的不足是主动扫描的报告需要自己上web端下载。目标获取和上面几个模块一样，联动subdomain时会从数据库获取目标，独立模式则会从subdomain.tmp获取目标。<br>
 
 * 7.xray模块<br>
 ![xray](IMG/xray.png)<br>
-
+这个模块也是来自autoIncient项目，经过改造后具备主动漏洞扫描功能，输出报告为html，在配置文件中可以设定运行模式和主动模式的结果输出路径，在被动模式下监听来自配置文件中设置的端口的流量，在本项目和awvs配合使用，主动模式下统一从subdomain.tmp获取目标。<br>
 
 # 运行效果
 subdomain模块：<br>
