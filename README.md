@@ -35,17 +35,46 @@
 > python SutureMonster.py -f urls.txt -m awvs xray<br>
 > python SutureMonster.py -u http://example.com -m subdomain dirscan<br>
 > python SutureMonster.py -u 192.168.242.1 -m hostscan hydra<br>
+
 ![help](IMG/帮助.png)<br>
+
 推荐组合：<br>
 -m subdomain dirscan<br>
 -m hostscan signscan hydra<br>
 -m awvs xray<br>
 
 # 工作流程
-1.<br>
+* 1.subdomain模块<br>
+![subdomain](IMG/subdomain.png)<br>
+这个模块功能主要是获取目标子域名信息，引入了JSFindr(魔改版)、OneForAll(输入参数上有一些小改动)。
+主要流程为jsfinder先从live.txt读取存活目标url，从js中提取子域名，通过存活性检查后连同原有url一起去重写入live.txt，再启动oneforall进行信息收集，最后将需要的结果写入allReports.db。<br>
+
+* 2.dirscan模块<br>
+![dirscan](IMG/dirscan.png)<br>
+这个模块只整合了dirsearch一个工具，用于web目录扫描，在单独运行的模式下目标直接取自live.txt，联动subdomain模块则从数据库中获取subdomain模块生成的结果，扫描完成后会将结果整理好写入数据库。<br>
+
+* 3.hostscan模块<br>
+![hostscan](IMG/hostscan.png)<br>
+
+* 4.signscan模块<br>
+![signscan](IMG/signscan.png)<br>
+
+* 5.hydra模块<br>
+![hydra](IMG/hydra.png)<br>
+
+* 6.awvs模块<br>
+![awvs](IMG/awvs.png)<br>
+
+* 7.xray模块<br>
+![xray](IMG/xray.png)<br>
+
 
 # 运行效果
+subdomain模块：<br>
 ![effect1](IMG/效果1.png)<br>
+dirscan模块：<br>
 ![effect2](IMG/效果2.png)<br>
+hostscan + hydra：<br>
 ![effect3](IMG/效果3.png)<br>
+xray + awvs：<br>
 ![effect4](IMG/效果4.png)<br>
