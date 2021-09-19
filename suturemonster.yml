@@ -1,0 +1,93 @@
+# 总配置文件,除了xray需要在它自己的配置文件编辑外,其他工具的基本配置只需要在这个文件下编辑
+[global]
+# proxy_addr: 全局代理,格式：http://127.0.0.1:10809
+proxy_addr=
+
+[oneforall]
+# ofa_port:  请求的端口,具体端口号能在OneForAll/config/default.py查看,可选: small  medium  large
+# ofa_alive: 是否只导出存活域名(默认=False),True=是  False=否
+# ofa_path:  选择结果另外输出路径,默认只输出到./reports/subdomain_report/
+# ofa_flag:  是否协同jsfinder,协同=1  不协同=0
+ofa_port=medium
+ofa_alive=True
+ofa_path=
+ofa_flag=1
+
+[jsfinder]
+# jf_path:   结果的另外输出路径,默认只输出到./reports/subdomain_report/
+# jf_cookie: 指定cookie
+jf_path=
+jf_cookie=
+
+[dirsearch]
+# ds_extensions:          指定网站使用的语言,用逗号隔开,默认为全部,支持[php,jsp,asp,html等]
+# ds_threads:             扫描线程数,一般=30
+# ds_exclude_status_code: 排除的状态码,用逗号分隔(default.conf中已经有status_code的白名单,为200-399,401,403)
+# ds_exclude_regex:       根据正则排除响应(如：^Error$)
+ds_extensions=
+ds_threads=30
+ds_exclude_status_code=301,302
+ds_exclude_regex=Not Found
+
+[awvs]
+# apikey:          AWVS配置文件里面,有个 API KEY,复制填进去就行
+# awvs_url:        AWVS url
+# awvs_model:      扫描模式：11=完全扫描  12=高风险漏洞   13=SQL注入   15=弱口令   16=XSS  17=仅爬虫   20=恶意软件扫描
+# scan_speed:      扫描速度: sequential < slow < moderate < fast
+# awvs_proxy:      是否开启代理,1=开启  0=关闭
+# awvs_proxy_addr && awvs_proxy_port: awvs代理地址
+apikey=1986ad8c0a5b3df4d7028d5f3c06e936c2eb6f41ddfe64102901003c74ee00394
+awvs_url=https://127.0.0.1:3443
+awvs_model=17
+scan_speed=slow
+awvs_proxy=1
+awvs_proxy_addr=127.0.0.1
+awvs_proxy_port=55555
+
+[xray]
+# xray_model: 被动模式=0/主动模式=1
+# xray_proxy_addr && xray_proxy_port: xray的被动代理监听地址
+# xray_path:  指定输出目录,默认输出到./reports/vul_scan_report/
+xray_model=0
+xray_proxy_addr=127.0.0.1
+xray_proxy_port=55555
+xray_path=
+
+[hostsurvey]
+# hs_mod:     设置扫描模式->all(默认)=livehost+port+sign  port=端口扫描  sign=web指纹识别  host=主机发现(arp)
+# hs_port:    要扫描的端口,默认配置为hydra的破解对象,
+#                如果新增端口有爆破需求,要在PortFuzz.py的hydra()函数里添加爆破参数配置
+# hs_ping:    是否用ping命令检查存活状态->是=1  否(默认)=0
+# hs_timeout: 等待响应包的超时时间
+hs_mod=
+hs_port=21-23,25,53,69,80-89,110,111,137,139,143,389,443,445,512-514,873,1194,1352,1433,1500,1521,1723,2049,2082,2083,2181,3128,3306,3389,3690,4848,5000,5432,5900-5902,5984,6379,7001,7002,7778,8000,8443,8069,8080-8089,9080,9081,9090,9200,9300,11211,27017,27018,50070,50030
+hs_ping=0
+hs_timeout=
+
+[nmap]
+# n_flag:        是否联动nmap进行端口扫描以及服务探测->是(默认)=1  否=0
+# n_scan_flag:   扫描模式,S=SYN  A=ACK
+# n_hostgroup:   并行扫描组的大小
+# n_parallelism: 探测报文并行度
+# n_timeout:     检测超时时间
+# n_seq:         指定扫描过程中使用的时序
+n_flag=1
+n_scan_flag=S
+n_hostgroup=4
+n_parallelism=1024
+n_timeout=30
+n_seq=T4
+
+[hydra]
+# 爆破使用的字典必须放在dictionary目录下!!!
+# hy_thread:   爆破线程数
+# hy_flag:     爆破模式：1=使用文件,内容格式为：用户名:密码
+#                      0=分别指定用户名字典和密码字典
+# hy_dictName: 爆破用的大字典,内容格式：用户名:密码
+# hy_userDict: 用户名字典
+# hy_passDict: 密码字典
+hy_thread=2
+hy_flag=1
+hy_dictName=fuzz.dict
+hy_userDict=uname.dict
+hy_passDict=passwd.txt
