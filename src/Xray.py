@@ -51,8 +51,8 @@ def initiative(o, tf):
 
 
 def start(mods):
-    if not src.os.path.isfile(Util.joinPath(src.path, 'monster', 'Xray', 'xray')) and \
-            not src.os.path.isfile(Util.joinPath(src.path, 'monster', 'Xray', 'xray.exe')):
+    if not src.os.access(Util.joinPath(src.path, 'monster', 'Xray', 'xray'), src.os.X_OK) and \
+            (src.OS == "Windows" and not src.os.access(Util.joinPath(src.path, 'monster', 'Xray', 'xray.exe'), src.os.X_OK)):
         print('[ERROR]Xray:找不到xray,或者没有执行权限.')
         return
     if not src.os.path.isdir(src.xray_path):

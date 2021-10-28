@@ -75,14 +75,12 @@ def scan(target, profile_id):
 
 # 基本配置
 def configuration(target_id):
-    if src.awvs_proxy == 1:
-        proxy = True
-    else:
-        proxy = False
-    configuration_url = ''.join((src.awvs_url, '/api/v1/targets/{0}/configuration'.format(target_id)))
+    proxy = False
+    if src.awvs_proxy == "1": proxy = True
+    configuration_url = ''.join((src.awvs_url, '/api/v1/targets/{}/configuration'.format(target_id)))
     data = {"scan_speed": src.scan_speed, "login": {"kind": "none"}, "ssh_credentials": {"kind": "none"}, "sensor": False,
-            "user_agent": UA[src.random.randint(1, len(UA))], "case_sensitive": "auto", "limit_crawler_scope": True, "excluded_paths": [],
-            "authentication": {"enabled": False},
+            "user_agent": UA[src.random.randint(1, len(UA))].strip(), "case_sensitive": "auto",
+            "limit_crawler_scope": True, "excluded_paths": [], "authentication": {"enabled": False},
             "proxy": {"enabled": proxy, "protocol": "http", "address": src.awvs_proxy_addr, "port": src.awvs_proxy_port},
             "technologies": [], "custom_headers": [], "custom_cookies": [], "debug": False,
             "client_certificate_password": "", "issue_tracker_id": "", "excluded_hours_id": ""}
